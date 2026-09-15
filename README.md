@@ -164,3 +164,10 @@ The data is made available under a Creative Commons Attribution 3.0 New Zealand 
 | `Upper Quartile Rent` | A "synthetic" 75th percentile, estimated under the same log-normal distribution assumption as the geometric mean, rather than read directly off the raw data. This avoids the same round-number plateauing issue affecting standard quartiles |
 | `Lower Quartile Rent` | A synthetic 25th percentile, calculated the same way as the upper quartile |
 | `Log Std Dev Weekly Rent` | Standard deviation of log(weekly rent) — a measure of rent dispersion/spread, consistent with the log-normal approach used for the geometric mean and synthetic quartiles |
+
+## Note on "ALL" rollup categories
+`Location Id`, `Dwelling Type`, and `Number Of Beds` interact as a rollup structure. `Dwelling Type` and `Number Of Beds` can each independently be `"ALL"`:
+
+- `Dwelling Type = "House"`, `Number Of Beds = "ALL"` — the aggregate of all houses, any bedroom count, for that Location Id
+- `Dwelling Type = "ALL"`, `Number Of Beds = "4"` — the aggregate of all dwelling types with 4 bedrooms, for that Location Id
+- `Dwelling Type = "ALL"`, `Number Of Beds = "ALL"` — the full aggregate total for that Location Id, across every dwelling type and bedroom count
