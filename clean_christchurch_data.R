@@ -26,3 +26,4 @@ christchurch <- christchurch |>
   mutate(
     reviews_per_month = if_else(is.na(reviews_per_month), 0, reviews_per_month))
 
+write_csv(christchurch, "christchurch_data_cleaned.csv")
