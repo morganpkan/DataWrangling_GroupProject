@@ -152,7 +152,7 @@ The data is made available under a Creative Commons Attribution 3.0 New Zealand 
 
 | Column | Meaning |
 |---|---|
-| `Location Id` | Identifier for the geographic area (SA2-2019 area definitions) |
+| `Location Id` | Identifier for Location|
 | `TimeFrame` | Quarter-start date the row represents (e.g. `2025-10-01` = Q4 2025: Oct/Nov/Dec) |
 | `Dwelling Type` | Category of dwelling the bond relates to (e.g. house, apartment); includes an `"ALL"` rollup category representing the total across all dwelling types, alongside the specific type breakdowns |
 | `Number Of Beds` | Bedroom count category for the properties in this row; includes an `"ALL"` rollup category representing the total across all bedroom counts, alongside specific breakdowns (`1`, `2`, `3`, `4`, `5`, `5+`, `6`, `9`) |
