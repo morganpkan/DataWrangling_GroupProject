@@ -152,7 +152,7 @@ The data is made available under a Creative Commons Attribution 3.0 New Zealand 
 
 | Column | Meaning |
 |---|---|
-| `Location Id` | Geographic area code based on Stats NZ's SA2-2019 classification (roughly suburb-sized statistical areas). Can be cross-referenced at the Stats NZ Geographic Data Service (datafinder.stats.govt.nz/data), under the SA2 2019 layer's "Data Table" tab, to find the matching area name |
+| `Location Id` | Geographic area code based on Stats NZ's SA2-2019 classification (roughly suburb-sized statistical areas). Can be cross-referenced at the Stats NZ Geographic Data Service (https://datafinder.stats.govt.nz/layer/123515-statistical-area-2-2026/)|
 | `TimeFrame` | Quarter-start date the row represents (e.g. `2025-10-01` = Q4 2025: Oct/Nov/Dec) |
 | `Dwelling Type` | Category of dwelling the bond relates to (e.g. house, apartment); includes an `"ALL"` rollup category representing the total across all dwelling types, alongside the specific type breakdowns |
 | `Number Of Beds` | Bedroom count category for the properties in this row; includes an `"ALL"` rollup category representing the total across all bedroom counts, alongside specific breakdowns (`1`, `2`, `3`, `4`, `5`, `5+`, `6`, `9`) |
