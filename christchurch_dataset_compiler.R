@@ -1,3 +1,5 @@
+#Creates deduplicated christchurch dataset, using most recent data
+
 library(tidyverse) 
 library(dplyr)
 library(purrr)
@@ -25,7 +27,7 @@ compiled_data <- compiled_data |>
   ungroup()
 
 # filter down to Christchurch, then deduplicate based on most recent scrape
-christchurch_latest <- compiled_data |>
+christchurch <- compiled_data |>
   filter(neighbourhood_group == "Christchurch City") |>
   group_by(id) |>
   slice_max(scrape_date, n = 1, with_ties = FALSE) |>
@@ -33,4 +35,4 @@ christchurch_latest <- compiled_data |>
   mutate(days_since_review = as.numeric(scrape_date - as_date(last_review)))
 
 # save the deduplicated Christchurch dataset for cleaning
-write_csv(christchurch_latest, "christchurch.csv")
+write_csv(christchurch, "christchurch.csv")
