@@ -28,11 +28,7 @@ compiled_data <- compiled_data |>
 
 # filter down to Christchurch, then deduplicate based on most recent scrape
 christchurch <- compiled_data |>
-  filter(neighbourhood_group == "Christchurch City") |>
-  group_by(id) |>
-  slice_max(scrape_date, n = 1, with_ties = FALSE) |>
-  ungroup() |>
-  mutate(days_since_review = as.numeric(scrape_date - as_date(last_review)))
+  filter(neighbourhood_group == "Christchurch City")
 
 # save the deduplicated Christchurch dataset for cleaning
 write_csv(christchurch, "christchurch.csv")
