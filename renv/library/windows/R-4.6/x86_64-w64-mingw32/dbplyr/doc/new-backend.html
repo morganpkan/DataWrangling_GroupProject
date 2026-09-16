@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Developing a dbplyr backend</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Developing a dbplyr backend</h1>
+
+
+
+<p>This document describes how to add a new SQL backend to dbplyr. To
+begin:</p>
+<ul>
+<li><p>Ensure that you have a DBI compliant database backend. If not,
+you’ll need to first create it by following the instructions in
+<code>vignette(&quot;backend&quot;, package = &quot;DBI&quot;)</code>.</p></li>
+<li><p>You’ll need a working knowledge of S3. Make sure that you’re <a href="https://adv-r.hadley.nz/s3.html">familiar with the basics</a>
+before you start.</p></li>
+</ul>
+<p>This document is still a work in progress, but it will hopefully get
+you started. I’d also strongly recommend reading the bundled source code
+for <a href="https://github.com/tidyverse/dbplyr/blob/master/R/backend-sqlite.R">SQLite</a>,
+<a href="https://github.com/tidyverse/dbplyr/blob/master/R/backend-mysql.R">MySQL</a>,
+and <a href="https://github.com/tidyverse/dbplyr/blob/master/R/backend-postgres.R">PostgreSQL</a>.</p>
+<div id="first-steps" class="section level2">
+<h2>First steps</h2>
+<p>For interactive exploitation, attach dplyr and DBI. If you’re
+creating a package, you’ll need to import dplyr and DBI.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(DBI)</span></code></pre></div>
+<p>Check that you can create a tbl from a connection, like:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>con <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="at">path =</span> <span class="st">&quot;:memory:&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>DBI<span class="sc">::</span><span class="fu">dbWriteTable</span>(con, <span class="st">&quot;mtcars&quot;</span>, mtcars)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">&quot;mtcars&quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; # A query:  ?? x 11</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; # Database: sqlite 3.52.0 []</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 4  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 5  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 6  18.1     6   225   105  2.76  3.46  20.2     1     0     3     1</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; # ℹ more rows</span></span></code></pre></div>
+<p>If you can’t, this likely indicates some problem with the DBI
+methods. Use <a href="https://github.com/r-dbi/DBItest">DBItest</a> to
+narrow down the problem.</p>
+</div>
+<div id="write-your-first-method" class="section level2">
+<h2>Write your first method</h2>
+<p>The first method of your dbplyr backend should always be for the
+<code>dbplyr_edition()</code> generic:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#&#39; @importFrom dbplyr dbplyr_edition</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&#39; @export</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>dbplyr_edition.myConnectionClass <span class="ot">&lt;-</span> <span class="cf">function</span>(con) <span class="dv">2</span><span class="dt">L</span></span></code></pre></div>
+<p>This declares that your package uses version 2 of the API, which is
+the version that this vignette documents.</p>
+</div>
+<div id="define-a-dialect" class="section level2">
+<h2>Define a dialect</h2>
+<p>Next, define a dialect for your backend using
+<code>sql_dialect()</code> and <code>new_sql_dialect()</code>. A dialect
+encapsulates the SQL syntax rules for your database:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#&#39; @export</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>sql_dialect.myConnectionClass <span class="ot">&lt;-</span> <span class="cf">function</span>(con) {</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">new_sql_dialect</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="st">&quot;mybackend&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    <span class="at">quote_identifier =</span> <span class="cf">function</span>(x) <span class="fu">sql_quote</span>(x, <span class="st">&#39;&quot;&#39;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  )</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>The <code>new_sql_dialect()</code> function requires two
+arguments:</p>
+<ul>
+<li><code>dialect</code>: A unique name for your backend (used to create
+the class name).</li>
+<li><code>quote_identifier</code>: A function that quotes identifiers.
+This will typically be either a call to <code>sql_quote()</code> or to
+<code>DBI::dbQuoteIdentifier()</code></li>
+</ul>
+<p><code>new_sql_dialect()</code> has a number of additional arguments
+that describe the capabilities of the SQL dialect; see
+<code>?new_sql_dialect</code> for details.</p>
+<p>The dialect system allows you to write methods that dispatch on the
+dialect class (e.g., <code>sql_translation.sql_dialect_mybackend</code>)
+rather than the connection class. This makes it easier to share SQL
+generation code between different connection types that use the same
+database (e.g. direct, ODBC, JDBC, ADBC).</p>
+<p>In general, generics that start with <code>sql_</code> should have a
+sql_dialect method, and generics that start with <code>db_</code> should
+use a DBI connection method. It should be relatively rare to need a
+method for <code>db_</code> generic, but occasionally dbplyr’s SQL
+generation system is not quite flexible enough. If you find this, it’s
+worth filing an issue so I can look into it.</p>
+</div>
+<div id="copying-computing-collecting-and-collapsing" class="section level2">
+<h2>Copying, computing, collecting and collapsing</h2>
+<p>Next, check that <code>copy_to()</code>, <code>collapse()</code>,
+<code>compute()</code>, and <code>collect()</code> work:</p>
+<ul>
+<li><p>If <code>copy_to()</code> fails, you probably need a method for
+<code>sql_table_analyze()</code> or <code>sql_table_index()</code>. If
+<code>copy_to()</code> fails during creation of the tbl, you may need a
+method for <code>sql_query_fields()</code>.</p></li>
+<li><p>If <code>collapse()</code> fails, your database has a
+non-standard way of constructing subqueries. Add a method for
+<code>sql_subquery()</code>.</p></li>
+<li><p>If <code>compute()</code> fails, your database has a non-standard
+way of saving queries in temporary tables. Add a method for
+<code>db_save_query()</code>.</p></li>
+</ul>
+</div>
+<div id="sql-translation-verbs" class="section level2">
+<h2>SQL translation: verbs</h2>
+<p>Make sure you’ve read <code>vignette(&quot;translation-verb&quot;)</code> so
+you have the lay of the land. First check that SQL translation for the
+key verbs work:</p>
+<ul>
+<li><code>summarise()</code>, <code>mutate()</code>,
+<code>filter()</code> etc: powered by
+<code>sql_query_select()</code></li>
+<li><code>left_join()</code>, <code>inner_join()</code>: powered by
+<code>sql_query_join()</code></li>
+<li><code>semi_join()</code>, <code>anti_join()</code>: powered by
+<code>sql_query_semi_join()</code></li>
+<li><code>union()</code>, <code>intersect()</code>,
+<code>setdiff()</code>: powered by <code>sql_query_set_op()</code></li>
+</ul>
+<div id="building-sql-strings" class="section level3">
+<h3>Building SQL strings</h3>
+<p>If you need to generate your own SQL, we recommend using
+<code>sql_glue2()</code>. It uses glue syntax with type markers for safe
+SQL generation:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">simulate_dbi</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Create an index</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>index_name <span class="ot">&lt;-</span> <span class="st">&quot;index&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>table <span class="ot">&lt;-</span> <span class="fu">I</span>(<span class="st">&quot;schema.table&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>columns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;column1&quot;</span>, <span class="st">&quot;column2&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">sql_glue2</span>(con, <span class="st">&quot;CREATE INDEX {.id index_name} ON {.tbl table} {.id columns*}&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; &lt;SQL&gt; CREATE INDEX &quot;index&quot; ON schema.table (&quot;column1&quot;, &quot;column2&quot;)</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># Insert values safely</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="st">&quot;O&#39;Brien&quot;</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">sql_glue2</span>(con, <span class="st">&quot;INSERT INTO students (name) VALUES {name*}&quot;</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; &lt;SQL&gt; INSERT INTO students (name) VALUES (&#39;O&#39;&#39;Brien&#39;)</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># Build a query</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>table <span class="ot">&lt;-</span> <span class="st">&quot;my_table&quot;</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;value&quot;</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="fu">sql_glue2</span>(con, <span class="st">&quot;SELECT {.id cols} FROM {.tbl table}&quot;</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; &lt;SQL&gt; SELECT &quot;id&quot;, &quot;name&quot;, &quot;value&quot; FROM &quot;my_table&quot;</span></span></code></pre></div>
+</div>
+<div id="behind-the-scenes" class="section level3">
+<h3>Behind the scenes</h3>
+<p>The high-level translation from R code to SQL takes place in a few
+steps, using two intermediate representations: a “lazy query” and a
+“query”. A lazy query is closer to R and a query is closer to SQL. This
+continuum of representation allows us to work with expressions when
+trying to reason about the transformation pipeline, then later switch to
+strings of SQL when we get closer to generating a query.</p>
+<p>All dbplyr pipelines are built on top of the <code>tbl_lazy</code>
+data structure, which is the only data structure that the user will ever
+see. It has two fields:</p>
+<ul>
+<li>A database <code>con</code>nection which is used to specialise SQL
+translation.</li>
+<li>A <code>lazy_query</code> which represents the lazy computation
+described by the pipeline. It always starts off as a
+<code>lazy_base_query</code> which represents a remote table or SQL
+query.</li>
+</ul>
+<p>Each verb takes a <code>tbl_lazy</code> as input and returns a
+modified <code>tbl_lazy</code>, modifying the <code>lazy_query</code>
+with the new requirements. At the simplest level, this involves wrapping
+the existing lazy query within a new lazy query, such as
+<code>lazy_query_select()</code> or
+<code>lazy_query_multi_join()</code>. These represent what later will
+become a subquery so that (e.g.) <code>filter()</code>,
+<code>mutate()</code>, <code>select()</code>, <code>arrange()</code>,
+and <code>summarise()</code> all use <code>lazy_select_query()</code>,
+whereas <code>left_join()</code> and <code>inner_join()</code> use
+<code>lazy_query_multi_join()</code>.</p>
+<p>These lazy queries are typically created by a helper function like
+<code>add_select()</code>, <code>add_mutate()</code>, and
+<code>add_filter()</code>. These helpers have two roles:</p>
+<ol style="list-style-type: decimal">
+<li><p>They abstract away repeated code for substantially similar dplyr
+verbs. For example, <code>select()</code>, <code>rename()</code>,
+<code>rename_with()</code> and <code>relocate()</code> all use
+<code>add_select()</code>.</p></li>
+<li><p>They are responsible for figuring out if we can re-use the
+existing query or we need to wrap in a subquery. Typically this work is
+done by a function called <code>can_inline_select()</code> which will
+use what we know about SQL and the verb to determine whether or not we
+have to introduce a subquery.</p></li>
+</ol>
+<p>The lazy query gives us a representation of the data manipulation
+pipeline with enough detail that we can reason about when we need a
+subquery. Then when the user calls <code>collect()</code>, we need to
+generate an SQL query. This happens in two steps: building and
+rendering.</p>
+<p>First, <code>sql_build()</code> recurses over the lazy query,
+building up query objects like <code>select_query()</code> and
+<code>multi_join_query()</code> that represent the different subtypes of
+<code>SELECT</code> queries. Compared to the previous “lazy” query
+representation, these are much closer to SQL than R. They can be much
+simpler because we no longer need to reason about subqueries, but we
+still need some structure to facilitate backend-specific
+translations.</p>
+<p>Next, <code>sql_render()</code> is called on the result of
+<code>sql_build()</code> and dispatches to generics like
+<code>sql_query_select()</code>, <code>sql_query_join()</code>,
+<code>sql_query_semi_join()</code>, and <code>sql_query_set_op()</code>.
+These generics have methods for each backend that are responsible for
+creating the needed SQL.</p>
+</div>
+</div>
+<div id="sql-translation-vectors" class="section level2">
+<h2>SQL translation: vectors</h2>
+<p>Finally, you may have to provide custom R -&gt; SQL translation for
+functions that work with vectors within verbs. You can do this by
+providing a method for <code>sql_translation()</code>, which returns an
+object created by <code>sql_variant()</code>.</p>
+<p>You can define translation methods either on your connection class or
+on your dialect class. Using the dialect class is recommended as it
+allows sharing translations between different connection types:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Method on dialect class (recommended)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>sql_translation.sql_dialect_mybackend <span class="ot">&lt;-</span> <span class="cf">function</span>(con) {</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">sql_variant</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">scalar =</span> <span class="fu">sql_translator</span>(base_scalar, ...), <span class="co"># Functions in SELECT (non-aggregated)</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">aggregate =</span> <span class="fu">sql_translator</span>(base_aggregate, ...), <span class="co"># Aggregation functions (mean, sum, etc.)</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">window =</span> <span class="fu">sql_translator</span>(base_win, ...) <span class="co"># Window functions (lead, lag, rank, etc.)</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  )</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>}</span></code></pre></div>
+<p>Each translator will inherit from the base (ANSI SQL) translator and
+override only what’s different for your backend:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">sql_translator</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  base_scalar, <span class="co"># Inherit most translations</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co"># Override specific functions for your backend</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="st">`</span><span class="at">+</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sql_infix</span>(<span class="st">&quot;+&quot;</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">sql_aggregate</span>(<span class="st">&quot;AVG&quot;</span>, <span class="st">&quot;mean&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>)</span></code></pre></div>
+<div id="scalar-function-helpers" class="section level3">
+<h3>Scalar function helpers</h3>
+<p>dbplyr provides several helper functions to make it easier to
+translate R functions to SQL:</p>
+<ul>
+<li><strong><code>sql_prefix(f, n = NULL)</code></strong>: For standard
+SQL functions. The <code>n</code> argument optionally specifies the
+number of arguments.</li>
+<li><strong><code>sql_infix(f)</code></strong>: For infix operators like
+<code>+</code>, <code>*</code>, or <code>==</code>.</li>
+<li><strong><code>sql_cast(type)</code></strong>: For type casting
+functions.</li>
+<li><strong><code>sql_not_supported(f)</code></strong>: For functions
+with no SQL translation.</li>
+</ul>
+<p>Here’s an example showing all of these helpers in use:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>sql_translation.sql_dialect_mybackend <span class="ot">&lt;-</span> <span class="cf">function</span>(con) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">sql_variant</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">scalar =</span> <span class="fu">sql_translator</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>      base_scalar,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>      <span class="co"># Standard SQL functions</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>      <span class="at">cos =</span> <span class="fu">sql_prefix</span>(<span class="st">&quot;COS&quot;</span>, <span class="dv">1</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>      <span class="at">round =</span> <span class="fu">sql_prefix</span>(<span class="st">&quot;ROUND&quot;</span>, <span class="dv">2</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>      <span class="co"># Infix operators</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>      <span class="st">`</span><span class="at">+</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sql_infix</span>(<span class="st">&quot;+&quot;</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>      <span class="st">`</span><span class="at">*</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sql_infix</span>(<span class="st">&quot;*&quot;</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>      <span class="st">`</span><span class="at">==</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sql_infix</span>(<span class="st">&quot;=&quot;</span>),</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>      <span class="co"># Type casting</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>      <span class="at">as.numeric =</span> <span class="fu">sql_cast</span>(<span class="st">&quot;NUMERIC&quot;</span>),</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>      <span class="at">as.character =</span> <span class="fu">sql_cast</span>(<span class="st">&quot;VARCHAR&quot;</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    ),</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="at">aggregate =</span> <span class="fu">sql_translator</span>(base_agg),</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    <span class="at">window =</span> <span class="fu">sql_translator</span>(base_win)</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  )</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="aggregation-function-helpers" class="section level3">
+<h3>Aggregation function helpers</h3>
+<ul>
+<li><strong><code>sql_aggregate(f, f_r = f)</code></strong>: For
+single-argument SQL aggregate functions. The <code>f_r</code> argument
+gives the name of the R function.</li>
+<li><strong><code>sql_aggregate_2(f)</code></strong>: For two-argument
+SQL aggregate functions.</li>
+<li><strong><code>sql_aggregate_n(f, f_r = f)</code></strong>: For
+variadic SQL aggregate functions.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sql_translation.sql_dialect_mybackend <span class="ot">&lt;-</span> <span class="cf">function</span>(con) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">sql_variant</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="at">scalar =</span> <span class="fu">sql_translator</span>(base_scalar),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    <span class="at">aggregate =</span> <span class="fu">sql_translator</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>      <span class="at">.parent =</span> base_agg,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>      <span class="co"># Single-argument aggregates</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">sql_aggregate</span>(<span class="st">&quot;AVG&quot;</span>, <span class="st">&quot;mean&quot;</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>      <span class="at">var =</span> <span class="fu">sql_aggregate</span>(<span class="st">&quot;VAR_SAMP&quot;</span>, <span class="st">&quot;var&quot;</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>      <span class="co"># Two-argument aggregates</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>      <span class="at">cov =</span> <span class="fu">sql_aggregate_2</span>(<span class="st">&quot;COVAR_SAMP&quot;</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>      <span class="co"># Variadic aggregates</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>      <span class="at">pmin =</span> <span class="fu">sql_aggregate_n</span>(<span class="st">&quot;LEAST&quot;</span>, <span class="st">&quot;pmin&quot;</span>),</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>      <span class="at">pmax =</span> <span class="fu">sql_aggregate_n</span>(<span class="st">&quot;GREATEST&quot;</span>, <span class="st">&quot;pmax&quot;</span>),</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>      <span class="co"># Unsupported functions</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>      <span class="at">median =</span> <span class="fu">sql_not_supported</span>(<span class="st">&quot;median&quot;</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    ),</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    <span class="at">window =</span> <span class="fu">sql_translator</span>(base_win)</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>  )</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="window-function-helpers" class="section level3">
+<h3>Window function helpers</h3>
+<p>Window functions have their own set of helpers:</p>
+<ul>
+<li><strong><code>win_rank(f)</code></strong>: For ranking
+functions.</li>
+<li><strong><code>win_aggregate(f)</code></strong>: For aggregate
+functions used as window functions.</li>
+<li><strong><code>win_cumulative(f)</code></strong>: For cumulative
+functions.</li>
+<li><strong><code>win_absent(f)</code></strong>: For backends that don’t
+support certain window functions.</li>
+</ul>
+<p>Here’s an example showing all of these helpers in use:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>window <span class="ot">=</span> <span class="fu">sql_translator</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  base_win,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="co"># Ranking functions</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="at">row_number =</span> <span class="fu">win_rank</span>(<span class="st">&quot;ROW_NUMBER&quot;</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">rank =</span> <span class="fu">win_rank</span>(<span class="st">&quot;RANK&quot;</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="at">dense_rank =</span> <span class="fu">win_rank</span>(<span class="st">&quot;DENSE_RANK&quot;</span>),</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="co"># Aggregate functions as window functions</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">win_aggregate</span>(<span class="st">&quot;AVG&quot;</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="at">sum =</span> <span class="fu">win_aggregate</span>(<span class="st">&quot;SUM&quot;</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="co"># Cumulative functions</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="at">cumsum =</span> <span class="fu">win_cumulative</span>(<span class="st">&quot;SUM&quot;</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="co"># Absent functions</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="at">cume_dist =</span> <span class="fu">win_absent</span>(<span class="st">&quot;cume_dist&quot;</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="custom-translation-functions" class="section level3">
+<h3>Custom translation functions</h3>
+<p>For more complex translations, you can write custom functions that
+return SQL expressions using <code>sql_glue()</code>. This uses glue
+syntax for string interpolation with automatic escaping.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>scalar <span class="ot">=</span> <span class="fu">sql_translator</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  base_scalar,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="co"># Custom log function with change of base</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">log =</span> <span class="cf">function</span>(x, <span class="at">base =</span> <span class="fu">exp</span>(<span class="dv">1</span>)) {</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(base, <span class="fu">exp</span>(<span class="dv">1</span>)))) {</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>      <span class="fu">sql_glue</span>(<span class="st">&quot;LN({x})&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>      <span class="fu">sql_glue</span>(<span class="st">&quot;LOG({x}) / LOG({base})&quot;</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>    }</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  },</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  <span class="co"># Custom paste function using CONCAT</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  <span class="at">paste =</span> <span class="cf">function</span>(..., <span class="at">sep =</span> <span class="st">&quot; &quot;</span>) {</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>    <span class="fu">sql_glue</span>(<span class="st">&quot;CONCAT_WS({sep}, {...})&quot;</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  }</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

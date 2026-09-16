@@ -1,0 +1,76 @@
+.sql                    Flag SQL function usage
+arrange.tbl_lazy        Arrange rows by column values
+backend-adbc            ADBC backend
+backend-jdbc            JDBC backend
+bind_queries            Combine multiple lazy queries
+collapse.tbl_sql        Collapse a query into a subquery
+collect.tbl_sql         Collect results into a local data frame
+complete.tbl_lazy       Complete a SQL table with missing combinations
+                        of data
+compute.tbl_sql         Save results into a new remote table
+copy_inline             Use a local data frame in a dbplyr query
+copy_to.src_sql         Copy a local data frame to a remote database
+count.tbl_lazy          Count observations by group
+dbplyr_uncount          "Uncount" a database table
+dialect_access          MS Access backend
+dialect_ansi            ANSI SQL backend
+dialect_db2             DB2 backend
+dialect_hana            SAP HANA backend
+dialect_hive            Hive backend
+dialect_impala          Impala backend
+dialect_mariadb         MySQL/MariaDB backend
+dialect_mssql           SQL Server backend
+dialect_odbc            ODBC backend
+dialect_oracle          Oracle backend
+dialect_postgres        PostgreSQL backend
+dialect_redshift        Redshift backend
+dialect_snowflake       Snowflake backend
+dialect_spark_sql       Databricks Spark SQL backend
+dialect_sqlite          SQLite backend
+dialect_teradata        Teradata backend
+distinct.tbl_lazy       Subset distinct/unique rows
+do.tbl_sql              Perform arbitrary computation on remote backend
+escape                  Escape/quote a value
+expand.tbl_lazy         Expand SQL tables to include all possible
+                        combinations of values
+fill.tbl_lazy           Fill in missing values with previous or next
+                        value
+filter.tbl_lazy         Keep or drop rows that match a condition
+get_returned_rows       Extract and check the 'RETURNING' rows
+group_by.tbl_lazy       Group by one or more variables
+head.tbl_lazy           Subset the first rows
+intersect.tbl_lazy      SQL set operations
+join.tbl_sql            Join SQL tables
+last_sql                Retrieve the last SQL query generated
+memdb                   A temporary in-memory database
+mutate.tbl_lazy         Create, modify, and delete columns
+pivot_longer.tbl_lazy   Pivot data from wide to long
+pivot_wider.tbl_lazy    Pivot data from long to wide
+pull.tbl_sql            Extract a single column
+remote_name             Metadata about a remote table
+replace_na.tbl_lazy     Replace NAs with specified values
+rows_insert.tbl_lazy    Edit individual rows in the underlying database
+                        table
+select.tbl_lazy         Subset, rename, and reorder columns using their
+                        names
+show_query              Show generated SQL and query plan
+slice_min.tbl_lazy      Subset rows using their positions
+sql                     Literal SQL escaping
+sql_dialect             SQL dialects
+sql_glue                Build SQL strings with glue syntax
+sql_options             Options for generating SQL
+sql_query_insert        Generate SQL for Insert, Update, Upsert, and
+                        Delete
+sql_translation_agg     SQL helpers for aggregate functions
+sql_translation_scalar
+                        SQL helpers for scalar functions
+sql_translation_string
+                        SQL helpers for string functions
+sql_translation_window
+                        SQL helpers for window functions
+sql_variant             Create an SQL translator
+summarise.tbl_lazy      Summarise each group to one row
+tbl.src_dbi             Create a lazy query backed by a database
+translate_sql           Translate an expression to SQL
+window_order            Override window order and frame
+with_dialect            Override the SQL dialect for a connection

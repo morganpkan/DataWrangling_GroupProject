@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: A 'dplyr' Back End for Databases</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body><div class="container">
+<h1> A 'dplyr' Back End for Databases
+<img class="toplogo" src="figures/logo.png" alt="[R logo]">
+</h1>
+<hr>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]"></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]"></a>
+</div><h2>Documentation for package &lsquo;dbplyr&rsquo; version 2.6.0</h2>
+
+<ul><li><a href="../DESCRIPTION" type="text/plain; charset=utf-8">DESCRIPTION file</a></li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation</a></li>
+<li><a href="../NEWS.md">Package NEWS</a></li>
+<li><a href="../README.md">Package README</a></li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="#A">A</a>
+<a href="#B">B</a>
+<a href="#C">C</a>
+<a href="#D">D</a>
+<a href="#E">E</a>
+<a href="#F">F</a>
+<a href="#G">G</a>
+<a href="#H">H</a>
+<a href="#I">I</a>
+<a href="#J">J</a>
+<a href="#L">L</a>
+<a href="#M">M</a>
+<a href="#N">N</a>
+<a href="#P">P</a>
+<a href="#R">R</a>
+<a href="#S">S</a>
+<a href="#T">T</a>
+<a href="#U">U</a>
+<a href="#W">W</a>
+<a href="#misc">misc</a>
+</p>
+
+
+<h2><a id="A">-- A --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="count.tbl_lazy.html">add_count.tbl_lazy</a></td>
+<td>Count observations by group</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">anti_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+<tr><td style="width: 25%;"><a href="arrange.tbl_lazy.html">arrange.tbl_lazy</a></td>
+<td>Arrange rows by column values</td></tr>
+</table>
+
+<h2><a id="B">-- B --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="backend-adbc.html">backend-adbc</a></td>
+<td>ADBC backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-jdbc.html">backend-jdbc</a></td>
+<td>JDBC backend</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_agg</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_no_win</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_odbc_agg</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_odbc_scalar</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_odbc_win</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_scalar</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">base_win</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="bind_queries.html">bind_queries</a></td>
+<td>Combine multiple lazy queries</td></tr>
+</table>
+
+<h2><a id="C">-- C --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="collapse.tbl_sql.html">collapse.tbl_sql</a></td>
+<td>Collapse a query into a subquery</td></tr>
+<tr><td style="width: 25%;"><a href="collect.tbl_sql.html">collect.tbl_sql</a></td>
+<td>Collect results into a local data frame</td></tr>
+<tr><td style="width: 25%;"><a href="complete.tbl_lazy.html">complete.tbl_lazy</a></td>
+<td>Complete a SQL table with missing combinations of data</td></tr>
+<tr><td style="width: 25%;"><a href="compute.tbl_sql.html">compute.tbl_sql</a></td>
+<td>Save results into a new remote table</td></tr>
+<tr><td style="width: 25%;"><a href="copy_inline.html">copy_inline</a></td>
+<td>Use a local data frame in a dbplyr query</td></tr>
+<tr><td style="width: 25%;"><a href="copy_to.src_sql.html">copy_to.src_sql</a></td>
+<td>Copy a local data frame to a remote database</td></tr>
+<tr><td style="width: 25%;"><a href="count.tbl_lazy.html">count.tbl_lazy</a></td>
+<td>Count observations by group</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">cross_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+</table>
+
+<h2><a id="D">-- D --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="escape.html">db-quote</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="pivot_wider.tbl_lazy.html">dbplyr_pivot_wider_spec</a></td>
+<td>Pivot data from long to wide</td></tr>
+<tr><td style="width: 25%;"><a href="dbplyr_uncount.html">dbplyr_uncount</a></td>
+<td>"Uncount" a database table</td></tr>
+<tr><td style="width: 25%;"><a href="backend-access.html">dialect_access</a></td>
+<td>MS Access backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-ansi.html">dialect_ansi</a></td>
+<td>ANSI SQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-db2.html">dialect_db2</a></td>
+<td>DB2 backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-hana.html">dialect_hana</a></td>
+<td>SAP HANA backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-hive.html">dialect_hive</a></td>
+<td>Hive backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-impala.html">dialect_impala</a></td>
+<td>Impala backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mysql.html">dialect_mariadb</a></td>
+<td>MySQL/MariaDB backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mssql.html">dialect_mssql</a></td>
+<td>SQL Server backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mysql.html">dialect_mysql</a></td>
+<td>MySQL/MariaDB backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-odbc.html">dialect_odbc</a></td>
+<td>ODBC backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-oracle.html">dialect_oracle</a></td>
+<td>Oracle backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-postgres.html">dialect_postgres</a></td>
+<td>PostgreSQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-redshift.html">dialect_redshift</a></td>
+<td>Redshift backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-snowflake.html">dialect_snowflake</a></td>
+<td>Snowflake backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-spark-sql.html">dialect_spark_sql</a></td>
+<td>Databricks Spark SQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-sqlite.html">dialect_sqlite</a></td>
+<td>SQLite backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-teradata.html">dialect_teradata</a></td>
+<td>Teradata backend</td></tr>
+<tr><td style="width: 25%;"><a href="distinct.tbl_lazy.html">distinct.tbl_lazy</a></td>
+<td>Subset distinct/unique rows</td></tr>
+<tr><td style="width: 25%;"><a href="do.tbl_sql.html">do.tbl_sql</a></td>
+<td>Perform arbitrary computation on remote backend</td></tr>
+</table>
+
+<h2><a id="E">-- E --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="escape.html">escape</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="expand.tbl_lazy.html">expand.tbl_lazy</a></td>
+<td>Expand SQL tables to include all possible combinations of values</td></tr>
+<tr><td style="width: 25%;"><a href="show_query.html">explain.tbl_sql</a></td>
+<td>Show generated SQL and query plan</td></tr>
+</table>
+
+<h2><a id="F">-- F --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="fill.tbl_lazy.html">fill.tbl_lazy</a></td>
+<td>Fill in missing values with previous or next value</td></tr>
+<tr><td style="width: 25%;"><a href="filter.tbl_lazy.html">filter.tbl_lazy</a></td>
+<td>Keep or drop rows that match a condition</td></tr>
+<tr><td style="width: 25%;"><a href="filter.tbl_lazy.html">filter_out.tbl_lazy</a></td>
+<td>Keep or drop rows that match a condition</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">full_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+</table>
+
+<h2><a id="G">-- G --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="get_returned_rows.html">get_returned_rows</a></td>
+<td>Extract and check the 'RETURNING' rows</td></tr>
+<tr><td style="width: 25%;"><a href="group_by.tbl_lazy.html">group_by.tbl_lazy</a></td>
+<td>Group by one or more variables</td></tr>
+</table>
+
+<h2><a id="H">-- H --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="get_returned_rows.html">has_returned_rows</a></td>
+<td>Extract and check the 'RETURNING' rows</td></tr>
+<tr><td style="width: 25%;"><a href="head.tbl_lazy.html">head.tbl_lazy</a></td>
+<td>Subset the first rows</td></tr>
+</table>
+
+<h2><a id="I">-- I --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">inner_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+<tr><td style="width: 25%;"><a href="intersect.tbl_lazy.html">intersect.tbl_lazy</a></td>
+<td>SQL set operations</td></tr>
+<tr><td style="width: 25%;"><a href="sql.html">is.sql</a></td>
+<td>Literal SQL escaping</td></tr>
+</table>
+
+<h2><a id="J">-- J --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">join.tbl_sql</a></td>
+<td>Join SQL tables</td></tr>
+</table>
+
+<h2><a id="L">-- L --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="last_sql.html">last_sql</a></td>
+<td>Retrieve the last SQL query generated</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">left_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+<tr><td style="width: 25%;"><a href="memdb.html">local_memdb_frame</a></td>
+<td>A temporary in-memory database</td></tr>
+</table>
+
+<h2><a id="M">-- M --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="memdb.html">memdb</a></td>
+<td>A temporary in-memory database</td></tr>
+<tr><td style="width: 25%;"><a href="memdb.html">memdb_frame</a></td>
+<td>A temporary in-memory database</td></tr>
+<tr><td style="width: 25%;"><a href="mutate.tbl_lazy.html">mutate.tbl_lazy</a></td>
+<td>Create, modify, and delete columns</td></tr>
+</table>
+
+<h2><a id="N">-- N --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="sql_dialect.html">new_sql_dialect</a></td>
+<td>SQL dialects</td></tr>
+</table>
+
+<h2><a id="P">-- P --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="pivot_longer.tbl_lazy.html">pivot_longer.tbl_lazy</a></td>
+<td>Pivot data from wide to long</td></tr>
+<tr><td style="width: 25%;"><a href="pivot_wider.tbl_lazy.html">pivot_wider.tbl_lazy</a></td>
+<td>Pivot data from long to wide</td></tr>
+<tr><td style="width: 25%;"><a href="pull.tbl_sql.html">pull.tbl_sql</a></td>
+<td>Extract a single column</td></tr>
+</table>
+
+<h2><a id="R">-- R --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="select.tbl_lazy.html">relocate.tbl_lazy</a></td>
+<td>Subset, rename, and reorder columns using their names</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_con</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_name</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_query</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_query_plan</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_src</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="remote_name.html">remote_table</a></td>
+<td>Metadata about a remote table</td></tr>
+<tr><td style="width: 25%;"><a href="select.tbl_lazy.html">rename.tbl_lazy</a></td>
+<td>Subset, rename, and reorder columns using their names</td></tr>
+<tr><td style="width: 25%;"><a href="select.tbl_lazy.html">rename_with.tbl_lazy</a></td>
+<td>Subset, rename, and reorder columns using their names</td></tr>
+<tr><td style="width: 25%;"><a href="replace_na.tbl_lazy.html">replace_na.tbl_lazy</a></td>
+<td>Replace NAs with specified values</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">right_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_append.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_delete.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_insert.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_patch.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_update.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+<tr><td style="width: 25%;"><a href="rows-db.html">rows_upsert.tbl_lazy</a></td>
+<td>Edit individual rows in the underlying database table</td></tr>
+</table>
+
+<h2><a id="S">-- S --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="select.tbl_lazy.html">select.tbl_lazy</a></td>
+<td>Subset, rename, and reorder columns using their names</td></tr>
+<tr><td style="width: 25%;"><a href="join.tbl_sql.html">semi_join.tbl_lazy</a></td>
+<td>Join SQL tables</td></tr>
+<tr><td style="width: 25%;"><a href="intersect.tbl_lazy.html">setdiff.tbl_lazy</a></td>
+<td>SQL set operations</td></tr>
+<tr><td style="width: 25%;"><a href="show_query.html">show_query</a></td>
+<td>Show generated SQL and query plan</td></tr>
+<tr><td style="width: 25%;"><a href="show_query.html">show_query.tbl_lazy</a></td>
+<td>Show generated SQL and query plan</td></tr>
+<tr><td style="width: 25%;"><a href="backend-access.html">simulate_access</a></td>
+<td>MS Access backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-ansi.html">simulate_dbi</a></td>
+<td>ANSI SQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-hana.html">simulate_hana</a></td>
+<td>SAP HANA backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-hive.html">simulate_hive</a></td>
+<td>Hive backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-impala.html">simulate_impala</a></td>
+<td>Impala backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mysql.html">simulate_mariadb</a></td>
+<td>MySQL/MariaDB backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mssql.html">simulate_mssql</a></td>
+<td>SQL Server backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-mysql.html">simulate_mysql</a></td>
+<td>MySQL/MariaDB backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-odbc.html">simulate_odbc</a></td>
+<td>ODBC backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-oracle.html">simulate_oracle</a></td>
+<td>Oracle backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-postgres.html">simulate_postgres</a></td>
+<td>PostgreSQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-redshift.html">simulate_redshift</a></td>
+<td>Redshift backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-snowflake.html">simulate_snowflake</a></td>
+<td>Snowflake backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-spark-sql.html">simulate_spark_sql</a></td>
+<td>Databricks Spark SQL backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-sqlite.html">simulate_sqlite</a></td>
+<td>SQLite backend</td></tr>
+<tr><td style="width: 25%;"><a href="backend-teradata.html">simulate_teradata</a></td>
+<td>Teradata backend</td></tr>
+<tr><td style="width: 25%;"><a href="dbplyr-slice.html">slice_max.tbl_lazy</a></td>
+<td>Subset rows using their positions</td></tr>
+<tr><td style="width: 25%;"><a href="dbplyr-slice.html">slice_min.tbl_lazy</a></td>
+<td>Subset rows using their positions</td></tr>
+<tr><td style="width: 25%;"><a href="dbplyr-slice.html">slice_sample.tbl_lazy</a></td>
+<td>Subset rows using their positions</td></tr>
+<tr><td style="width: 25%;"><a href="sql.html">sql</a></td>
+<td>Literal SQL escaping</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_aggregate</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_aggregate_2</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_aggregate_n</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_cast</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_check_na_rm</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_cot</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_dialect.html">sql_dialect</a></td>
+<td>SQL dialects</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_date</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_datetime</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_ident</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_logical</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_raw</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_escape_string</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="sql_glue.html">sql_glue</a></td>
+<td>Build SQL strings with glue syntax</td></tr>
+<tr><td style="width: 25%;"><a href="sql_glue.html">sql_glue2</a></td>
+<td>Build SQL strings with glue syntax</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_infix</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_log</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_not_supported</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_options.html">sql_options</a></td>
+<td>Options for generating SQL</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_string.html">sql_paste</a></td>
+<td>SQL helpers for string functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_string.html">sql_paste_infix</a></td>
+<td>SQL helpers for string functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_prefix</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_query_insert.html">sql_query_append</a></td>
+<td>Generate SQL for Insert, Update, Upsert, and Delete</td></tr>
+<tr><td style="width: 25%;"><a href="sql_query_insert.html">sql_query_delete</a></td>
+<td>Generate SQL for Insert, Update, Upsert, and Delete</td></tr>
+<tr><td style="width: 25%;"><a href="sql_query_insert.html">sql_query_insert</a></td>
+<td>Generate SQL for Insert, Update, Upsert, and Delete</td></tr>
+<tr><td style="width: 25%;"><a href="sql_query_insert.html">sql_query_update_from</a></td>
+<td>Generate SQL for Insert, Update, Upsert, and Delete</td></tr>
+<tr><td style="width: 25%;"><a href="sql_query_insert.html">sql_query_upsert</a></td>
+<td>Generate SQL for Insert, Update, Upsert, and Delete</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_runif</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_string.html">sql_str_sub</a></td>
+<td>SQL helpers for string functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_string.html">sql_substr</a></td>
+<td>SQL helpers for string functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_agg.html">sql_translation_agg</a></td>
+<td>SQL helpers for aggregate functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_translation_scalar</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_string.html">sql_translation_string</a></td>
+<td>SQL helpers for string functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">sql_translation_window</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">sql_translator</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_scalar.html">sql_try_cast</a></td>
+<td>SQL helpers for scalar functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_variant.html">sql_variant</a></td>
+<td>Create an SQL translator</td></tr>
+<tr><td style="width: 25%;"><a href="escape.html">sql_vector</a></td>
+<td>Escape/quote a value</td></tr>
+<tr><td style="width: 25%;"><a href="summarise.tbl_lazy.html">summarise.tbl_lazy</a></td>
+<td>Summarise each group to one row</td></tr>
+</table>
+
+<h2><a id="T">-- T --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="count.tbl_lazy.html">tally.tbl_lazy</a></td>
+<td>Count observations by group</td></tr>
+<tr><td style="width: 25%;"><a href="tbl.src_dbi.html">tbl.src_dbi</a></td>
+<td>Create a lazy query backed by a database</td></tr>
+<tr><td style="width: 25%;"><a href="tbl.src_dbi.html">tbl_dbi</a></td>
+<td>Create a lazy query backed by a database</td></tr>
+<tr><td style="width: 25%;"><a href="translate_sql.html">translate_sql</a></td>
+<td>Translate an expression to SQL</td></tr>
+<tr><td style="width: 25%;"><a href="translate_sql.html">translate_sql_</a></td>
+<td>Translate an expression to SQL</td></tr>
+</table>
+
+<h2><a id="U">-- U --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="intersect.tbl_lazy.html">union.tbl_lazy</a></td>
+<td>SQL set operations</td></tr>
+<tr><td style="width: 25%;"><a href="intersect.tbl_lazy.html">union_all.tbl_lazy</a></td>
+<td>SQL set operations</td></tr>
+</table>
+
+<h2><a id="W">-- W --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="window_order.html">window_frame</a></td>
+<td>Override window order and frame</td></tr>
+<tr><td style="width: 25%;"><a href="window_order.html">window_order</a></td>
+<td>Override window order and frame</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_absent</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_aggregate</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_aggregate_2</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_cumulative</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_current_frame</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_current_group</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_current_order</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_over</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_rank</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="sql_translation_window.html">win_recycled</a></td>
+<td>SQL helpers for window functions</td></tr>
+<tr><td style="width: 25%;"><a href="with_dialect.html">with_dialect</a></td>
+<td>Override the SQL dialect for a connection</td></tr>
+</table>
+
+<h2><a id="misc">-- misc --</a></h2>
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="dot-sql.html">.sql</a></td>
+<td>Flag SQL function usage</td></tr>
+</table>
+</div></body></html>
