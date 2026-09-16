@@ -4,7 +4,6 @@
 
 library(tidyverse)
 library(lubridate)
-library(arrow) # Used for space-efficient Parquet format
 
 # Base directory where the datasets are stored
 dir_path <- "../Data_Wrangling_Datasets"
@@ -94,17 +93,6 @@ christchurch_all %>%
 christchurch_clean <- christchurch_all %>%
   filter(!is.na(minimum_nights))
 
-
-# Final cleaning:
-# Keep missing prices and reviews_per_month as NA, and remove the license column
-christchurch_clean <- christchurch_all %>%
-  filter(!is.na(minimum_nights)) %>%
-  select(-license)
-
-dim(christchurch_clean)
-dim(christchurch_all)
-
-
 # ============================================================
 # Map Christchurch Airbnb Listings to Matching Quarterly Periods
 # ============================================================
@@ -140,6 +128,3 @@ christchurch_aligned <- christchurch_clean %>%
 
 # Standard CSV format
 write.csv(christchurch_aligned, file.path(dir_path, "christchurch_aligned_oct2025_jun2026_combined.csv"), row.names = FALSE)
-
-dim(christchurch_aligned)
-glimpse(christchurch_aligned)
