@@ -1,7 +1,6 @@
 library(tidyverse)
 christchurch_raw <- read_csv('christchurch.csv')
 
-
 #Cleaning
 
 #NOTE: Price is NA from Dec 2025, Jan 2026, and Feb 2026
@@ -24,13 +23,16 @@ christchurch <- christchurch |> select(-license)
 #Removed source file column; Derivable from month and year columns
 christchurch <- christchurch |> select(-source_file)
 
-#Omit redundant neighbourhood_group: All Rows = Christchurch City
+#Renamed neighbourhoodgroup to city.: All Rows = Christchurch City
 christchurch <- christchurch |> rename(city = neighbourhood_group)
 
 #Changed room_type and neighbourhood from strings to factor
 christchurch <- christchurch |>
   mutate(room_type = as.factor(room_type),
          neighbourhood = as.factor(neighbourhood))
+
+#Removes 4 rows where minimum nights was NA
+christchurch <- christchurch |> filter(!is.na(minimum_nights))
 
 #Changed NAs in reviews per month to 0
 christchurch <- christchurch |>
