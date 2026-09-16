@@ -10,10 +10,12 @@ tenancy <- tenancy_raw |>
          TimeFrame <= as_date("2026-04-30"))
 
 
-#Location ID = '-99' or = 'NULL' yet removed because havent worked out what they mean
 
 #Changed 'Location Id' column from char to int. 'NULL' became NA
 tenancy <- tenancy |> mutate(`Location Id` = as.integer(`Location Id`))
+
+#Removed 94 rows where Location ID was NA. Data would not be useable for next week deliverable. May create bias depending on why Location ID was missing.
+tenancy <- tenancy |> filter(!is.na(`Location Id`))
 
 #Changed Median, Geometric Mean, Upper Quartile, and Lower Quartile rents from char to numeric
 tenancy <- tenancy |>
