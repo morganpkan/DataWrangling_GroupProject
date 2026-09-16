@@ -4,10 +4,10 @@ Group project for **DATA201 -- Data Wrangling**
 
 ## Authors
 
--   Magesh Anbalagan
--   Morgan Perry Kan
--   Charlie Stridiron-Leiva
--   Bhuvaneshwari Thirunavukarasu
+- Magesh Anbalagan
+- Morgan Perry Kan
+- Charlie Stridiron-Leiva
+- Bhuvaneshwari Thirunavukarasu
 
 ------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ Follow these steps to run the project locally in RStudio.
 
 ### 1. Clone the Repository
 
-```bash
+``` bash
 git clone https://github.com/morganpkan/DataWrangling_GroupProject.git
 ```
 
@@ -38,7 +38,7 @@ git clone https://github.com/morganpkan/DataWrangling_GroupProject.git
 
 Install the required R packages if they are not already installed.
 
-```r
+``` r
 install.packages(c("tidyverse"))
 ```
 
@@ -48,13 +48,13 @@ Ensure that the dataset (`listings.csv`) is available in the project directory (
 
 Example:
 
-```r
+``` r
 data <- read.csv("listings.csv")
 ```
 
 or
 
-```r
+``` r
 data <- read.csv("data/listings.csv")
 ```
 
@@ -62,7 +62,7 @@ data <- read.csv("data/listings.csv")
 
 Open `main.R` and click **Source**, or run:
 
-```r
+``` r
 source("main.R")
 ```
 
@@ -71,7 +71,7 @@ This will execute the data wrangling and analysis workflow.
 ## 📊 Dataset Information
 
 | Attribute | Details |
-|-----------|---------|
+|----|----|
 | **Dataset Name** | Airbnb Listings - New Zealand (June 2026) |
 | **Source** | Inside Airbnb |
 | **Dataset File** | `listings.csv` |
@@ -80,12 +80,12 @@ This will execute the data wrangling and analysis workflow.
 | **Collection Period** | June 2026 |
 | **Data Provider** | Inside Airbnb |
 | **Dataset Description** | Public Airbnb listing data containing information about hosts, properties, pricing, availability, and reviews. |
-| **Official Website** | https://insideairbnb.com/get-the-data/ |
+| **Official Website** | <https://insideairbnb.com/get-the-data/> |
 
 ## 📑 Dataset Columns
 
 | Column | Description |
-|---------|-------------|
+|----|----|
 | **id** | Unique identifier for each Airbnb listing |
 | **name** | Listing title |
 | **host_id** | Unique identifier for the host |
@@ -105,21 +105,20 @@ This will execute the data wrangling and analysis workflow.
 | **number_of_reviews_ltm** | Reviews received in the last 12 months |
 | **license** | License or registration information (if available) |
 
-> **Note:** Column definitions are based on the Inside Airbnb data
-> dictionary.
+> **Note:** Column definitions are based on the Inside Airbnb data dictionary.
 
 ## 🛠 Tools Used
 
--   **KNIME Analytics Platform**
-    -   Data cleaning
-    -   Data transformation
-    -   Data filtering
-    -   Data wrangling
-    -   Basic visualisation
+- **KNIME Analytics Platform**
+  - Data cleaning
+  - Data transformation
+  - Data filtering
+  - Data wrangling
+  - Basic visualisation
 
 ## 📁 Repository Structure
 
-```text
+``` text
 DataWrangling_GroupProject/
 │
 ├── .gitignore
