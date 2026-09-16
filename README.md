@@ -106,8 +106,6 @@ This will execute the data wrangling and analysis workflow.
 | **month_year** | Source monthly collection label (e.g., `"October 2025"`). |
 | **Period** | **Added Key:** Quarterly reporting period label (`"October-December 2025"`, `"January-March 2026"`, `"April-June 2026"`) for merging with bond data. |
 
----
-
 ## 📊 Dataset Information — Tenancy Services Rental Bond Data
 
 | Attribute | Details |
@@ -175,7 +173,6 @@ DataWrangling_GroupProject/
 - **Copyright & Open Data:** Crown copyright material licensed under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) license.
 - **Privacy Controls:** Data includes automated privacy protection measures applied by MBIE, including fixed random rounding to base 3 and suppression of cell values where bond counts are below 5.
 
-
 # Deliverable 8: Data Preprocessing and Cleaning Documentation
 
 ## 1. Christchurch Airbnb Listings Dataset
@@ -187,7 +184,7 @@ DataWrangling_GroupProject/
 - **Reviews per month:** Missing values in `reviews_per_month` were retained as `NA`. Rows were not removed on this basis, as doing so would cause unnecessary data loss. No imputation was performed.
 - **Price:** The `price` column was retained, as it is required for the planned rental price comparison. Missing values were kept as `NA` rather than removed or imputed. December 2025, January 2026, and February 2026 have no recorded prices; removing these rows would exclude all listings from those months entirely. Observations with missing prices can be excluded at the analysis stage where required.
 - **Spatial Keys:** Preserved `latitude` and `longitude` coordinates to enable geographic mapping in subsequent analysis steps.
-- **Timeframe Alignment:** Added a standardized `Period` variable mapping monthly records to quarterly reporting windows (`"October-December 2025"`, `"January-March 2026"`, and `"April-June 2026"`) to align with the Tenancy Services bond dataset.
+- **Timeframe Alignment:** Added a standardized `Period` column mapping monthly records to quarterly reporting windows (`"October-December 2025"`, `"January-March 2026"`, and `"April-June 2026"`) to align with the Tenancy Services bond dataset.
 
 ### Dataset Size Before and After Cleaning — Christchurch Airbnb Listings
 
@@ -199,16 +196,14 @@ DataWrangling_GroupProject/
 | Columns removed | – | 1 (`license`) |
 | Columns added | – | 1 (`Period`) |
 
-> **Timeframe Alignment Note:** The Christchurch Airbnb listings were filtered and grouped across the exact same 9-month timeframe (**October 2025 to June 2026**) to match the quarterly reporting periods of the rental bond dataset.
+> **Timeframe Alignment Note:** The Christchurch Airbnb listings were filtered and grouped across the exact same 9 months timeframe (**October 2025 to June 2026**) to match the quarterly reporting periods of the rental bond dataset.
 
 ### Output Files — Christchurch
 
 The cleaning and alignment script generates the following output files for Christchurch:
 
 - **`christchurch_oct2025_jun2026_combined.csv`**: The initial combined dataset containing raw Christchurch City observations across all nine monthly files prior to cleaning.
-- **`christchurch_aligned_oct2025_jun2026_combined.csv`**: The final cleaned and aligned Christchurch dataset. It excludes the empty `license` column, drops rows missing `minimum_nights`, retains spatial coordinates (`latitude`, `longitude`), and includes the standardized `Period` quarterly labels.
-
----
+- **`christchurch_aligned_oct2025_jun2026_combined.csv`**: The final cleaned and aligned Christchurch dataset. It excludes the empty `license` column, drops rows missing `minimum_nights`, and includes the standardized `Period` quarterly labels.
 
 ## 2. Tenancy Services Rental Bond Dataset
 
@@ -250,10 +245,6 @@ The Rental Bond dataset was filtered strictly to `TimeFrame` values `2025-10-01`
 | Columns added | – | 1 (`Period`) |
 
 > **Timeframe Alignment Note:** The rental bond dataset was filtered strictly to **Q4 2025 (`2025-10-01`)**, **Q1 2026 (`2026-01-01`)**, and **Q2 2026 (`2026-04-01`)**. This ensures it covers the exact same months (**October 2025 to June 2026**) as the Christchurch Airbnb dataset for a direct baseline comparison.
-
-### Columns Retained & Excluded
-
-No analytical variables were dropped from the bond dataset. Essential keys — `Location Id`, `TimeFrame`, `Dwelling Type`, and `Number Of Beds` — were explicitly preserved to enable multi-variable matching against short-term Airbnb listings in Deliverable 5.
 
 ### Output Files — Tenancy Services
 
