@@ -9,8 +9,6 @@ tenancy <- tenancy_raw |>
   filter(TimeFrame >= as_date("2025-10-01"),
          TimeFrame <= as_date("2026-04-30"))
 
-
-
 #Changed 'Location Id' column from char to int. 'NULL' became NA
 tenancy <- tenancy |> mutate(`Location Id` = as.integer(`Location Id`))
 
@@ -21,6 +19,11 @@ tenancy <- tenancy |> filter(!is.na(`Location Id`))
 tenancy <- tenancy |>
   mutate(across(c(`Median Rent`, `Geometric Mean Rent`, `Upper Quartile Rent`, `Lower Quartile Rent`),
                 as.numeric))
+
+#Changed Dwelling Type from str type variable to factor
+tenancy <- tenancy |>
+  mutate(`Dwelling Type` = as.factor(`Dwelling Type`))
+
 
 #Changed Log Std Dev Weekly Rent from char to numeric.
 tenancy <- tenancy |> mutate(`Log Std Dev Weekly Rent` = as.numeric(`Log Std Dev Weekly Rent`))
