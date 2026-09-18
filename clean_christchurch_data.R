@@ -11,7 +11,7 @@ christchurch_raw <- read_csv('christchurch.csv')
 #April listings used as most recent tenancy/rental bond data in April 2026
 #May and June 2026 data excluded from this dataset.
 christchurch <- christchurch_raw |>
-  filter(scrape_date <= as_date("2026-04-30")) |>
+  filter(scrape_date <= as_date("2026-04-22")) |>
   group_by(id) |>
   slice_max(scrape_date, n = 1, with_ties = FALSE) |>
   ungroup() |>
@@ -23,7 +23,7 @@ christchurch <- christchurch |> select(-license)
 #Removed source file column; Derivable from month and year columns
 christchurch <- christchurch |> select(-source_file)
 
-#Renamed neighbourhoodgroup to city.: All Rows = Christchurch City
+#Renamed neighbourhood_group to city.: All Rows = Christchurch City
 christchurch <- christchurch |> rename(city = neighbourhood_group)
 
 #Changed room_type and neighbourhood from strings to factor
@@ -38,5 +38,9 @@ christchurch <- christchurch |> filter(!is.na(minimum_nights))
 christchurch <- christchurch |>
   mutate(
     reviews_per_month = if_else(is.na(reviews_per_month), 0, reviews_per_month))
+
+airbnb <- christchurch |>
+      select(id, latitude, longitude)
+write_csv(airbnb, 'py/airbnb_data.csv')
 
 write_csv(christchurch, "christchurch_data_cleaned.csv")
