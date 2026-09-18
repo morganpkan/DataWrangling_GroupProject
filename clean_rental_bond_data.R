@@ -24,6 +24,5 @@ tenancy <- tenancy |>
 tenancy <- tenancy |>
   mutate(`Dwelling Type` = as.factor(`Dwelling Type`))
 
-
 #Changed Log Std Dev Weekly Rent from char to numeric.
 tenancy <- tenancy |> mutate(`Log Std Dev Weekly Rent` = as.numeric(`Log Std Dev Weekly Rent`))
