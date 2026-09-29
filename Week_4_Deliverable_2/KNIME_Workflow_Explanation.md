@@ -289,7 +289,7 @@ After the Row Sampler, add a **Row Filter** for Christchurch City.
   <tr>
     <td align="center">
       <strong>Top-10% Listings in Christchurch.</strong><br>
-      <img src="image-12.png" alt="**Row Filter** for Christchurch City." width="400">
+      <img src="Images/image-12.png" alt="**Row Filter** for Christchurch City." width="400">
     </td>
     <td align="center">
       <strong>Histogram: Top-10% Listings in Christchurch.</strong><br>
