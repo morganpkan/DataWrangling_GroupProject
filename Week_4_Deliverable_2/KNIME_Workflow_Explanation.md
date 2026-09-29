@@ -221,7 +221,7 @@ of the table.
   <tr>
     <td align="center">
       <strong>Sorting the `number_of_reviews` Column -- descending</strong><br>
-      <img src="image-10.png" alt="`number_of_reviews` -- descending" width="400">
+      <img src="Images/image-9.png" alt="`number_of_reviews` -- descending" width="400">
     </td>
   </tr>
 </table>
@@ -244,7 +244,7 @@ listings with the highest review counts.
   <tr>
     <td align="center">
       <strong>Top 10% most-reviewed New Zealand Airbnb</strong><br>
-      <img src="image-11.png" alt="Top 10% most-reviewed New Zealand Airbnb" width="400">
+      <img src="Images/image-10.png" alt="Top 10% most-reviewed New Zealand Airbnb" width="400">
     </td>
   </tr>
 </table>
@@ -268,7 +268,7 @@ when presenting this result.
   <tr>
     <td align="center">
       <strong>Top 10% Most-Reviewed Listings of all New Zealand</strong><br>
-      <img src="image-12.png" alt="Top 10% Most-Reviewed Listings" width="400">
+      <img src="Images/image-11.png" alt="Top 10% Most-Reviewed Listings" width="400">
     </td>
   </tr>
 </table>
@@ -289,11 +289,11 @@ After the Row Sampler, add a **Row Filter** for Christchurch City.
   <tr>
     <td align="center">
       <strong>Top-10% Listings in Christchurch.</strong><br>
-      <img src="image-14.png" alt="**Row Filter** for Christchurch City." width="400">
+      <img src="image-12.png" alt="**Row Filter** for Christchurch City." width="400">
     </td>
     <td align="center">
       <strong>Histogram: Top-10% Listings in Christchurch.</strong><br>
-      <img src="image-13.png" alt="**Row Filter** for Christchurch City." width="400">
+      <img src="Images/image-13.png" alt="**Row Filter** for Christchurch City." width="400">
     </td>
   </tr>
 </table>
@@ -314,7 +314,7 @@ The **Constant Value Column Appender** adds the scrape/publish date to every row
   <tr>
     <td align="center">
       <strong>String to Date&Time and Constant Value Column Appender</strong><br>
-      <img src="image-15.png" alt="String to Date&Time and Constant Value Column Appender" width="400">
+      <img src="Images/image-14.png" alt="String to Date&Time and Constant Value Column Appender" width="400">
     </td>
   </tr>
 </table>
@@ -342,11 +342,11 @@ The output connects directly to a Histogram node to plot the distribution of thi
   <tr>
     <td align="center">
       <strong>Date&Time Difference Table</strong><br>
-      <img src="image-16.png" alt="Date and Time Difference Table Output" width="400">
+      <img src="Images/image-15.png" alt="Date and Time Difference Table Output" width="400">
     </td>
     <td align="center">
       <strong>Days Since Last Review Histogram</strong><br>
-      <img src="image-17.png" alt="Days Since Last Review Histogram" width="400">
+      <img src="Images/image-16.png" alt="Days Since Last Review Histogram" width="400">
     </td>
   </tr>
 </table>
