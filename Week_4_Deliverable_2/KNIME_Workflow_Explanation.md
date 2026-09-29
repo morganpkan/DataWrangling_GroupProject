@@ -73,7 +73,7 @@ and analyse the dataset.
   <tr>
     <td align="center">
       <strong>Raw New Zealand Airbnb listings table</strong><br>
-      <img src="image.png" alt="Raw New Zealand Airbnb listings table" width="400">
+      <img src="Images/image.png" alt="Raw New Zealand Airbnb listings table" width="400">
     </td>
   </tr>
 </table>
@@ -94,7 +94,7 @@ later.
   <tr>
     <td align="center">
       <strong>A cleaned `name` field.</strong><br>
-      <img src="image-1.png" alt="A cleaned `name` field." width="400">
+      <img src="Images/image-1.png" alt="A cleaned `name` field." width="400">
     </td>
   </tr>
 </table>
@@ -115,7 +115,7 @@ manage and reduces the amount of data passed to later nodes.
   <tr>
     <td align="center">
       <strong>License Columns Removed</strong><br>
-      <img src="image-2.png" alt="License Columns Removed" width="400">
+      <img src="Images/image-2.png" alt="License Columns Removed" width="400">
     </td>
   </tr>
 </table>
@@ -134,11 +134,11 @@ The **Row Filter** separates Christchurch City listings from the full New Zealan
   <tr>
     <td align="center">
       <strong>Christchurch City Filter</strong><br>
-      <img src="image-3.png" alt="Christchurch City Filter" width="400">
+      <img src="Images/image-3.png" alt="Christchurch City Filter" width="400">
     </td>
     <td align="center">
       <strong>Christchurch Price Distribution</strong><br>
-      <img src="image-4.png" alt="Christchurch Price Distribution" width="400">
+      <img src="Images/image-4.png" alt="Christchurch Price Distribution" width="400">
     </td>
   </tr>
 </table>
@@ -161,11 +161,11 @@ using the `price` field.
   <tr>
     <td align="center">
       <strong>Price distribution for all New Zealand</strong><br>
-      <img src="image-6.png" alt="Price distribution for all New Zealand listings." width="400">
+      <img src="Images/image-5.png" alt="Price distribution for all New Zealand listings." width="400">
     </td>
      <td align="center">
       <strong>Price distribution for all New Zealand</strong><br>
-      <img src="image-7.png" alt="Price distribution for all New Zealand listings." width="400">
+      <img src="Images/image-6.png" alt="Price distribution for all New Zealand listings." width="400">
     </td>
   </tr>
 </table>
@@ -192,11 +192,11 @@ interpreting the combined plot.
   <tr>
     <td align="center">
       <strong>Concatenate Node</strong><br>
-      <img src="image-8.png" alt="Concatenate Node" width="400">
+      <img src="Images/image-7.png" alt="Concatenate Node" width="400">
     </td>
     <td align="center">
       <strong>Combined Price Histogram</strong><br>
-      <img src="image-9.png" alt="Combined Price Histogram" width="400">
+      <img src="Images/image-8.png" alt="Combined Price Histogram" width="400">
     </td>
   </tr>
 </table>
