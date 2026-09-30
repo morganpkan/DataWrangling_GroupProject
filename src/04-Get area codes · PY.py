@@ -25,8 +25,8 @@ BASE_URL = "###"
 SA2_CODE_FIELD = "SA22026_V1_00"
 SA2_NAME_FIELD = "SA22026_V1_00_NAME"
  
-INPUT_CSV = "airbnb_data.csv"     # must contain listing_id, latitude, longitude
-OUTPUT_CSV = "airbnb_area_codes.csv"
+INPUT_CSV = "output/airbnb_data_lat_long.csv"     # must contain listing_id, latitude, longitude
+OUTPUT_CSV = "output/airbnb_area_codes.csv"
  
 NUM_WORKERS = 8                    # tune down if you hit rate limits (HTTP 429)
 RADIUS_METERS = 100

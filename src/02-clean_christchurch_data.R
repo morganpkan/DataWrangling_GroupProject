@@ -41,6 +41,6 @@ christchurch <- christchurch |>
 
 airbnb <- christchurch |>
       select(id, latitude, longitude)
-write_csv(airbnb, 'output/airbnb_data.csv')
+write_csv(airbnb, 'output/airbnb_data_lat_long.csv')
 
 write_csv(christchurch, "output/christchurch_data_cleaned.csv")
