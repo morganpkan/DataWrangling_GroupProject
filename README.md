@@ -19,6 +19,7 @@ This project focuses on data wrangling and exploratory data analysis of the Insi
 
 ## 🚀 Getting Started
 
+The Deliverable 7 pipeline automates the Airbnb processing and visualisations. The earlier comparisons with rental bond data were carried out separately in Deliverable 5.
 Follow these steps to run the project locally in RStudio.
 
 ### 1. Clone the Repository
@@ -68,7 +69,7 @@ source("main.R")
 
 This will execute the data wrangling and analysis workflow.
 
-## 📊 Dataset Information — Airbnb Listings (New Zealand)
+## 📊 Airbnb Dataset Information (October 2025 to June 2026)'
 
 | Attribute | Details |
 |-----------|---------|
@@ -173,7 +174,7 @@ DataWrangling_GroupProject/
 - **Copyright & Open Data:** Crown copyright material licensed under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) license.
 - **Privacy Controls:** Data includes automated privacy protection measures applied by MBIE, including fixed random rounding to base 3 and suppression of cell values where bond counts are below 5.
 
-# Deliverable 8: Data Preprocessing and Cleaning Documentation
+## Earlier Data Cleaning Documentation (October 2025 to June 2026)
 
 ## 1. Christchurch Airbnb Listings Dataset
 
