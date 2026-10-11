@@ -11,62 +11,52 @@ Group project for **DATA201 -- Data Wrangling**
 
 ------------------------------------------------------------------------
 
-# Airbnb Listings -- New Zealand (June 2026)
+# Christchurch Airbnb and Rental Data Analysis
 
 ## 📌 Project Overview
 
-This project focuses on data wrangling and exploratory data analysis of the Inside Airbnb New Zealand (June 2026) dataset. Using KNIME Analytics Platform and R, we cleaned, transformed, and analysed Airbnb listing data to identify patterns in pricing, availability, room types, host activity, and neighbourhood distribution. The project demonstrates practical data preparation techniques.
+This project looks at Airbnb listings in Christchurch and compares short-term accommodation with the long-term rental market. We used Airbnb data from October 2025 to August 2026, alongside rental bond data from Tenancy Services. Throughout the project, we cleaned and combined datasets, compared rental prices across different areas, and created
+visualisations to explore patterns in Christchurch. For our latest deliverable, we automated the Airbnb analysis
+so that new monthly data can be processed with one command.
 
 ## 🚀 Getting Started
 
-Follow these steps to run the project locally in RStudio.
+Our latest Airbnb pipeline uses Python and R to automatically
+process the datasets and generate updated visualisations.
 
-### 1. Clone the Repository
+### Requirements
+
+- Python 3
+- R
+- Python packages: pandas, matplotlib, seaborn
+- R packages: tidyverse, lubridate
+
+### Running the Pipeline
+
+1. Download the monthly New Zealand listings.csv files from
+   [Inside Airbnb](https://insideairbnb.com/get-the-data/).
+
+2. Rename them using the month and year, for example:
+   listings_July_2026.csv
+
+3. Place the files in a folder called Data_Wrangling_Datasets,
+   alongside the DataWrangling_GroupProject folder.
+
+4. Open a terminal in the main project folder.
+
+5. Run the following command:
 
 ```bash
-git clone https://github.com/morganpkan/DataWrangling_GroupProject.git
+python3 Week_11_Deliverable_7/airbnb_pipeline.py
 ```
 
-### 2. Open the Project
+The pipeline automatically combines the Airbnb datasets,
+filters them to Christchurch, cleans the relevant data,
+and generates updated visualisations and a PDF report.
 
-- Open **RStudio**.
-- Select **File → Open Project...**
-- Navigate to the cloned repository.
-- Open `DataWrangling_GroupProject.Rproj`.
+The earlier Airbnb and rental bond comparisons can be found
+in Week_9_Deliverable_5.
 
-### 3. Install Required Packages
-
-Install the required R packages if they are not already installed.
-
-```r
-install.packages(c("tidyverse"))
-```
-
-### 4. Load the Dataset
-
-Ensure that the dataset (`listings.csv`) is available in the project directory (or in the `data/` folder if applicable).
-
-Example:
-
-```r
-data <- read.csv("listings.csv")
-```
-
-or
-
-```r
-data <- read.csv("data/listings.csv")
-```
-
-### 5. Run the Analysis
-
-Open `main.R` and click **Source**, or run:
-
-```r
-source("main.R")
-```
-
-This will execute the data wrangling and analysis workflow.
 
 ## 📊 Dataset Information — Airbnb Listings (New Zealand)
 
@@ -140,26 +130,39 @@ This will execute the data wrangling and analysis workflow.
 
 ## 🛠 Tools Used
 
--   **KNIME Analytics Platform**
-    -   Data cleaning
-    -   Data transformation
-    -   Data filtering
-    -   Data wrangling
-    -   Basic visualisation
+- **Python:** Data processing, automation and visualisations.
+- **R:** Cleaning, combining and preparing datasets.
+- **KNIME:** Initial data wrangling and visualisations.
+- **Pandas:** Working with datasets in Python.
+- **Matplotlib and Seaborn:** Creating graphs.
+- **GitHub:** Managing and sharing our code.
 
 ## 📁 Repository Structure
 
-```text
-DataWrangling_GroupProject/
-│
-├── .gitignore
-├── DataWrangling_GroupProject.Rproj
-├── README.md
-├── main.R
-├── clean_christchurch_listings.R
-├── clean_tenancy_bond.R
-└── test/
-```
+- **Week_3_Deliverable_1:** GitHub setup and collaboration.
+- **Week_4_Deliverable_2:** Initial Airbnb analysis.
+- **Week_5_Deliverable_3:** Combining monthly datasets.
+- **Week_8_Deliverable_4:** Data cleaning and preparation.
+- **Week_9_Deliverable_5:** Combining Airbnb and rental data.
+- **Week_10_Deliverable_6:** Improving coding practices.
+- **Week_11_Deliverable_7:** Automated Airbnb pipeline and visualisations.
+
+## 📊 Final Visualisations
+
+For Deliverable 7, we automated the Airbnb analysis and
+produced five updated visualisations.
+
+These explore:
+
+- July and August 2026 Airbnb prices.
+- Airbnb accommodation types.
+- Price differences between room types.
+- Airbnb listings across Christchurch areas.
+- Median nightly prices over time.
+
+[View the Visualisation Report](Week_11_Deliverable_7/Christchurch_Airbnb_Visualizations_Report.pdf)
+
+[View the Visualisation Notes](Week_11_Deliverable_7/Charlie_Deliverable_7_Visualisation_Notes.md)
 
 ## 📄 Dataset Licenses & Attribution
 
